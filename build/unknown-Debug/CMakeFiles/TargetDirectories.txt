@@ -1,8 +1,0 @@
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/ocr_gui.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/edit_cache.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/rebuild_cache.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/list_install_components.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/install.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/install/local.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/ocr_gui_autogen_timestamp_deps.dir
-D:/test/ocr_gui/build/unknown-Debug/CMakeFiles/ocr_gui_autogen.dir

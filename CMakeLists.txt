@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(ocr_gui VERSION 0.1 LANGUAGES CXX)
 
+# 自动处理 moc/uic/rcc
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -9,71 +10,41 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 查找 Qt
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+# 设置 OpenCV_DIR 路径（你的路径貌似是 install 版）
+set(OpenCV_DIR "C:/opencv-4.10.0/build-qt/install/x64/vc17/lib")  # 改成有 OpenCVConfig.cmake 的文件夹
 find_package(OpenCV REQUIRED)
 
+# 所有源文件
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    ocr_module.cpp
+    ocr_module.h
+    folder.cpp
+    folder.h
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(ocr_gui
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ocr_gui APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(ocr_gui SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(ocr_gui
-            ${PROJECT_SOURCES}
-            ocr_module.h ocr_module.cpp
-        )
-    endif()
-endif()
+# 可执行文件生成
+add_executable(ocr_gui ${PROJECT_SOURCES})
 
+# 包含路径
 target_include_directories(ocr_gui PRIVATE ${OpenCV_INCLUDE_DIRS})
 
-target_link_libraries(ocr_gui 
-    PRIVATE 
+# 链接 Qt 和 OpenCV 库
+target_link_libraries(ocr_gui
+    PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${OpenCV_LIBS}
 )
 
-
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.ocr_gui)
-endif()
+# macOS/iOS 的 Bundle 设置（非必须）
 set_target_properties(ocr_gui PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
-
-include(GNUInstallDirs)
-install(TARGETS ocr_gui
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(ocr_gui)
-endif()
