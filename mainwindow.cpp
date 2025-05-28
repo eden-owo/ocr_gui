@@ -15,23 +15,31 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     QWidget *central = new QWidget(this);
-    QVBoxLayout *layout = new QVBoxLayout(central);
+    QVBoxLayout *vLayout = new QVBoxLayout(central);
+    QHBoxLayout *hLayout_1 = new QHBoxLayout;
+    QHBoxLayout *hLayout_2 = new QHBoxLayout;
+
     inputLineEdit = new QLineEdit;
     outputLineEdit = new QLineEdit;
 
     btnSelectInput = new QPushButton("Select Input Folder");
+    btnSelectInput->setFixedWidth(150);
     inputLineEdit->setPlaceholderText("");
     btnSelectOutput = new QPushButton("Select Output Folder");
+    btnSelectOutput->setFixedWidth(150);
     outputLineEdit->setPlaceholderText("");
     btnProcess = new QPushButton("Run OCR");
     statusLabel = new QLabel("Ready.");
 
-    layout->addWidget(btnSelectInput);
-    layout->addWidget(inputLineEdit);
-    layout->addWidget(btnSelectOutput);
-    layout->addWidget(outputLineEdit);
-    layout->addWidget(btnProcess);
-    layout->addWidget(statusLabel);
+    hLayout_1->addWidget(btnSelectInput);
+    hLayout_1->addWidget(inputLineEdit);
+    hLayout_2->addWidget(btnSelectOutput);
+    hLayout_2->addWidget(outputLineEdit);
+
+    vLayout->addLayout(hLayout_1);
+    vLayout->addLayout(hLayout_2);
+    vLayout->addWidget(btnProcess);
+    vLayout->addWidget(statusLabel);
 
     setCentralWidget(central);
 
