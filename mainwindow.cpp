@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QDebug>
+#include <QLineEdit>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "ocr_module.h"
@@ -15,14 +16,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QWidget *central = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(central);
+    inputLineEdit = new QLineEdit;
+    outputLineEdit = new QLineEdit;
 
     btnSelectInput = new QPushButton("Select Input Folder");
+    inputLineEdit->setPlaceholderText("");
     btnSelectOutput = new QPushButton("Select Output Folder");
+    outputLineEdit->setPlaceholderText("");
     btnProcess = new QPushButton("Run OCR");
     statusLabel = new QLabel("Ready.");
 
     layout->addWidget(btnSelectInput);
+    layout->addWidget(inputLineEdit);
     layout->addWidget(btnSelectOutput);
+    layout->addWidget(outputLineEdit);
     layout->addWidget(btnProcess);
     layout->addWidget(statusLabel);
 
@@ -35,16 +42,26 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::selectInputFolder() {
-    std::string inputPath = ReadFolder(); // 使用你自己的快取+選擇邏輯
-    inputFolderPath = QString::fromStdString(inputPath);
-    statusLabel->setText("Input Folder: " + inputFolderPath);
+void MainWindow::selectInputFolder(){
+    QString folderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
+    if(!folderPath.isEmpty()){
+        inputLineEdit->setText(folderPath);
+        statusLabel->setText("Input Folder: " + folderPath);
+        qDebug() << "Returned path:" << folderPath;
+    } else {
+        qDebug() << "User canceled folder selection.";
+    }
 }
 
-void MainWindow::selectOutputFolder() {
-    std::string outputPath = ReadFolder(); // 同樣使用你自訂的快取選擇
-    outputFolderPath = QString::fromStdString(outputPath);
-    statusLabel->setText("Output Folder: " + outputFolderPath);
+void MainWindow::selectOutputFolder(){
+    QString folderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
+    if(!folderPath.isEmpty()){
+        outputLineEdit->setText(folderPath);
+        statusLabel->setText("Output Folder: " + folderPath);
+        qDebug() << "Returned path:" << folderPath;
+    } else {
+        qDebug() << "User canceled folder selection.";
+    }
 }
 
 void MainWindow::processImages() {

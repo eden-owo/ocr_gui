@@ -5,6 +5,7 @@
 #include <QString>
 #include <QPushButton>
 #include <QLabel>
+#include <QLineEdit>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -26,4 +27,8 @@ private:
     QPushButton *btnSelectOutput;
     QPushButton *btnProcess;
     QLabel *statusLabel;
+
+    QLineEdit* inputLineEdit;
+    QLineEdit* outputLineEdit;
+
 };

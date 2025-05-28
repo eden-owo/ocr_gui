@@ -76,9 +76,10 @@ std::string ReadFolder() {
 
     if (selectedFolder.empty()) {
         std::wcerr << L"未選擇資料夾，結束程式。\n";
-        return 0;
+        CoUninitialize();
+        return "";
     }
-
+    WriteCachedPath(cacheFile, selectedFolder);
     // 清理 COM
     CoUninitialize();
 
