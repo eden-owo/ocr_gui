@@ -51,22 +51,22 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {}
 
 void MainWindow::selectInputFolder(){
-    QString folderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
-    if(!folderPath.isEmpty()){
-        inputLineEdit->setText(folderPath);
-        statusLabel->setText("Input Folder: " + folderPath);
-        qDebug() << "Returned path:" << folderPath;
+    inputFolderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
+    if(!inputFolderPath.isEmpty()){
+        inputLineEdit->setText(inputFolderPath);
+        statusLabel->setText("Input Folder: " + inputFolderPath);
+        qDebug() << "Returned path:" << inputFolderPath;
     } else {
         qDebug() << "User canceled folder selection.";
     }
 }
 
 void MainWindow::selectOutputFolder(){
-    QString folderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
-    if(!folderPath.isEmpty()){
-        outputLineEdit->setText(folderPath);
-        statusLabel->setText("Output Folder: " + folderPath);
-        qDebug() << "Returned path:" << folderPath;
+    outputFolderPath = QFileDialog::getExistingDirectory(this, "Select Input Folder");
+    if(!outputFolderPath.isEmpty()){
+        outputLineEdit->setText(outputFolderPath);
+        statusLabel->setText("Output Folder: " + outputFolderPath);
+        qDebug() << "Returned path:" << outputFolderPath;
     } else {
         qDebug() << "User canceled folder selection.";
     }
